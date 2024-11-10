@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Login Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #D3D3D3;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
+
+    /* Left section with image */
+    .image-section {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .image-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Right section with login form */
+    .login-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #D3D3D3;
+      padding: 40px;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      width: 100%;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      border: 3px solid silver;
+      /* Thicker border */
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #D3D3D3;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    label {
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* General button styles */
+    button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      width: 100%;
+    }
+
+    /* Sign Up button styles */
+    button[type="submit"] {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    /* Already have an account button (transparent with blue border) */
+    button[type="button"] {
+      background-color: transparent;
+      border: 2px solid #007bff;
+      color: #007bff;
+    }
+
+    button[type="button"]:hover {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="login-section">
+      <form action="#" method="post">
+        <h2>Sign Up</h2>
+
+        <!-- Email Field -->
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <!-- Username Field -->
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <!-- Password Field -->
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <!-- Buttons container -->
+        <div class="button-group">
+          <!-- Sign Up button (submits the form) -->
+          <button type="submit">Sign Up</button>
+
+          <!-- Log In button (transparent with blue border) -->
+          <button type="button" onclick="window.location.href='login.html'">Already have an account? Log in</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Left section with image -->
+    <div class="image-section">
+      <img src="https://via.placeholder.com/800x600" alt="Background Image">
+    </div>
+  </div>
+</body>
+
+</html>
