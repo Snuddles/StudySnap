@@ -1,0 +1,147 @@
+/* Reset basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f0f0f5;
+  font-size: 16px;
+  color: #333;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header - transparent background with only Home visible */
+.App-header {
+  display: flex;
+  justify-content: flex-end;  /* Align items to the right */
+  padding: 20px;
+  background-color: transparent;  /* Transparent header */
+  box-shadow: none;  /* No box shadow */
+}
+
+.App-header .nav-list {
+  list-style: none;  /* Removes default bullet points */
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.App-header .nav-list li {
+  margin-left: 0;  /* No margin between items */
+}
+
+.App-header .nav-list li a {
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  color: #333;  /* Dark color for text */
+}
+
+.App-header .nav-list li a:hover {
+  color: #007bff;  /* Hover color */
+}
+
+/* Home Page Styling */
+.home-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+  text-align: center;
+}
+
+.home-page h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.home-page p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.button-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.button-link:hover {
+  color: #0056b3;
+}
+
+/* App Content - consistent padding */
+.App-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+form input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form button {
+  padding: 14px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Space between buttons on Sign Up and Login pages */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;  /* Space between buttons */
+}
+
+.button-group button {
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #0056b3;
+}
+
+/* Remove background image from the Signup page */
+.signup-section .image-section {
+  display: none;
+}
+
+/* Remove background from the Login page */
+.login-section {
+  background-color: transparent; /* Ensure no background on login form */
+}
