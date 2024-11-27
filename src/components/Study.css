@@ -1,0 +1,30 @@
+.study-container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .study-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .study-container .study-progress {
+    margin-top: 20px;
+  }
+  
+  .study-container button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .study-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .study-container .study-progress p {
+    font-weight: bold;
+  }
+  

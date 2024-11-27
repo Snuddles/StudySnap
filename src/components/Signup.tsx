@@ -1,41 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Signup = () => {
+interface SignupProps {
+  onSignup: (email: string, username: string, password: string) => void;
+}
+
+const Signup = ({ onSignup }: SignupProps) => {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Handle form submission logic here (e.g., send data to the server)
-  };
 
-  const handleLoginRedirect = () => {
-    // Redirect to login page
-    window.location.href = '/login';
+    if (!email || !username || !password) {
+      setError('All fields are required.');
+      return;
+    }
+
+    setError('');
+    onSignup(email, username, password);
   };
 
   return (
     <div className="container">
       <div className="signup-section">
+        <h2>Sign Up</h2>
+        {error && <p className="error">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <h2>Sign Up</h2>
-
-          {/* Email Field */}
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-          {/* Username Field */}
           <label htmlFor="username">Username</label>
-          <input type="text" id="username" name="username" required />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-          {/* Password Field */}
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" required />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-          {/* Buttons container */}
           <div className="button-group">
-            {/* Sign Up button */}
             <button type="submit">Sign Up</button>
-
-            {/* Already have an account button */}
-            <button type="button" onClick={handleLoginRedirect}>
+            <button type="button" onClick={() => window.location.href = '/login'}>
               Already have an account? Log in
             </button>
           </div>

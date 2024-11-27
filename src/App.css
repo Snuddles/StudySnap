@@ -18,35 +18,54 @@ body {
   min-height: 100vh;
 }
 
-/* Header - transparent background with only Home visible */
+/* Header - transparent background with Home aligned left and Logout aligned right */
 .App-header {
   display: flex;
-  justify-content: flex-end;  /* Align items to the right */
-  padding: 20px;
-  background-color: transparent;  /* Transparent header */
-  box-shadow: none;  /* No box shadow */
+  justify-content: space-between; /* Home on the left, Logout on the right */
+  align-items: center; /* Vertically center items */
+  padding: 20px 40px; /* Increased horizontal padding for wider separation */
+  background-color: transparent; /* Transparent header */
+  box-shadow: none; /* No box shadow */
 }
 
 .App-header .nav-list {
-  list-style: none;  /* Removes default bullet points */
+  list-style: none; /* Removes default bullet points */
   display: flex;
   margin: 0;
   padding: 0;
+  width: 100%; /* Make nav-list take the full width */
+}
+
+.App-header .nav-list li:first-child {
+  margin-right: auto; /* Push Logout further to the right by creating space after Home */
 }
 
 .App-header .nav-list li {
-  margin-left: 0;  /* No margin between items */
+  margin-left: 20px; /* Spacing between list items (if more are added) */
 }
 
 .App-header .nav-list li a {
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;
-  color: #333;  /* Dark color for text */
+  color: #333; /* Dark color for text */
 }
 
 .App-header .nav-list li a:hover {
-  color: #007bff;  /* Hover color */
+  color: #007bff; /* Hover color */
+}
+
+.App-header .nav-list li button {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.App-header .nav-list li button:hover {
+  color: #007bff;
 }
 
 /* Home Page Styling */
@@ -121,7 +140,7 @@ form button:hover {
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 10px;  /* Space between buttons */
+  gap: 10px; /* Space between buttons */
 }
 
 .button-group button {

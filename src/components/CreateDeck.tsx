@@ -1,29 +1,48 @@
 import React, { useState } from 'react';
 
-// Define the structure for the deck
-interface Deck {
-  title: string;
-  description: string;
+interface Flashcard {
+  question: string;
+  answer: string;
 }
 
-const CreateDeck: React.FC = () => {
-  // Initialize state to manage deck details
-  const [deck, setDeck] = useState<Deck>({ title: '', description: '' });
+interface Deck {
+  id: number;
+  name: string;
+  description: string; // Added description
+  cards: Flashcard[];
+}
 
-  // Handle input changes
+interface CreateDeckProps {
+  addDeck: (deck: Deck) => void; // Expects a full deck object
+}
+
+const CreateDeck: React.FC<CreateDeckProps> = ({ addDeck }) => {
+  const [deckName, setDeckName] = useState('');
+  const [deckDescription, setDeckDescription] = useState('');
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setDeck((prevDeck) => ({
-      ...prevDeck,
-      [name]: value,
-    }));
+    if (name === 'name') {
+      setDeckName(value);
+    } else if (name === 'description') {
+      setDeckDescription(value);
+    }
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Submit logic here, e.g., send deck to backend
-    console.log('New Deck Created:', deck);
+
+    const newDeck: Deck = {
+      id: Date.now(),
+      name: deckName,
+      description: deckDescription,
+      cards: [],
+    };
+
+    addDeck(newDeck);
+
+    setDeckName('');
+    setDeckDescription('');
   };
 
   return (
@@ -31,13 +50,13 @@ const CreateDeck: React.FC = () => {
       <h2>Create New Deck</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Deck Title:</label>
+          <label>Deck Name:</label>
           <input
             type="text"
-            name="title"
-            value={deck.title}
+            name="name"
+            value={deckName}
             onChange={handleInputChange}
-            placeholder="Enter deck title"
+            placeholder="Enter deck name"
           />
         </div>
         <div>
@@ -45,7 +64,7 @@ const CreateDeck: React.FC = () => {
           <input
             type="text"
             name="description"
-            value={deck.description}
+            value={deckDescription}
             onChange={handleInputChange}
             placeholder="Enter deck description"
           />
@@ -56,4 +75,4 @@ const CreateDeck: React.FC = () => {
   );
 };
 
-export default CreateDeck;
+export default CreateDeck; // Ensure this is a default export
