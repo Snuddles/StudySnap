@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
@@ -35,11 +35,57 @@ function App() {
     { id: 2, name: 'History 101', cards: [] },
   ]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const fetchDecks = async () => {
+
+      try {
+          const endpoint = 'http://192.168.1.212:3000/api/decks/user/' + currentUser?.username
+          const response = await fetch(endpoint); // Replace with your API URL
+          // hello
+          if (!response.ok) {
+              throw new Error('Failed to fetch user data');
+          }
+          const data = await response.json();
+          setDecks((prevDecks) => data.decks); // Update state with fetched data
+      } catch (err) {
+          console.log(err); // Update error state if fetch fails
+      }  
+  }
+  useEffect(() => {
+    console.log("Reloading decks")
+    fetchDecks();
+  },[currentUser]);
   
   // Deck and card management functions
-  const addDeck = (deckName: string) => {
+  const addDeck =  async (deckName: string) => {
     const newDeck: Deck = { id: Date.now(), name: deckName, cards: [] };
-    setDecks((prevDecks) => [...prevDecks, newDeck]);
+    const data = { username: currentUser?.username, name: newDeck.name, cards: newDeck.cards }
+    try {
+      const response = await fetch('http://192.168.1.212:3000/api/decks/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Deck Added!");
+        setDecks((prevDecks) => [...prevDecks, newDeck]);
+        navigate('/dashboard'); // Navigate to dashboard on successful login
+      } else {
+        // Show error feedback and stay on /login
+        alert(`Deck Failed to Add: ${result.message || 'Invalid credentials'}`);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(`An error occurred: ${error.message}`);
+      } else {
+        alert('An unexpected error occurred.');
+      }
+    }
+
   };
 
   const deleteDeck = (deckId: number) => {
@@ -107,7 +153,7 @@ function App() {
                 <span>Welcome, {currentUser.username}!</span>
               </li>
               <li>
-                <button onClick={() => {setCurrentUser(null); navigate('/')}}>Logout</button>
+                <button onClick={() => {setCurrentUser(null); setDecks((prevDecks) => []); console.log(decks); navigate('/')}}>Logout</button>
               </li>
             </>
           ) : null} {/* Removed the Login link when there's no currentUser */}
@@ -115,7 +161,6 @@ function App() {
       </nav>
     </header>
   );
-
   // Main render
   return (
     <div className="App">
