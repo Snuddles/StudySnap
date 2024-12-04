@@ -146,28 +146,38 @@ function App() {
                 const user = {
                   "username": username,
                   "password": password
+                };
+                try {
+                  const response = await fetch('http://192.168.1.212:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                  });
+
+                  const result = await response.json();
+
+                  if (response.ok) {
+                    alert("You're logged in!");
+                    setCurrentUser({ email: result.user.email, username: result.user.username });
+                    navigate('/dashboard'); // Navigate to dashboard on successful login
+                  } else {
+                    // Show error feedback and stay on /login
+                    alert(`Login failed: ${result.message || 'Invalid credentials'}`);
+                  }
+                } catch (error) {
+                  if (error instanceof Error) {
+                    alert(`An error occurred: ${error.message}`);
+                  } else {
+                    alert('An unexpected error occurred.');
+                  }
                 }
-                const response = await fetch('http://192.168.1.212:3000/api/auth/login', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(user) 
-                })
-                const result = await response.json();
-                if (response.ok){
-                  alert("You're logged in!")
-                  setCurrentUser({ email: result.user.email, username: result.user.username });
-                  navigate('/dashboard');
-                }
-                else{
-                  alert(`Error ${result.error}`)
-                }
-                
               }}
             />
           }
         />
+
         <Route
           path="/signup"
           element={
