@@ -38,7 +38,9 @@ function App() {
   const fetchDecks = async () => {
 
       try {
-          const endpoint = 'http://192.168.1.212:3000/api/decks/user/' + currentUser?.username
+        // http://192.168.1.212:3000 - kyles
+        // https://study.knightsthegerbxyz.online/
+          const endpoint = 'https://study.knightsthegerbxyz.online:3000/api/decks/user/' + currentUser?.username
           const response = await fetch(endpoint); // Replace with your API URL
           // hello
           if (!response.ok) {
@@ -60,7 +62,7 @@ function App() {
     const newDeck: Deck = { id: Date.now(), name: deckName, cards: [] };
     const data = { username: currentUser?.username, name: newDeck.name, cards: newDeck.cards }
     try {
-      const response = await fetch('http://192.168.1.212:3000/api/decks/create', {
+      const response = await fetch('https://study.knightsthegerbxyz.online:3000/api/decks/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -193,7 +195,7 @@ function App() {
                   "password": password
                 };
                 try {
-                  const response = await fetch('http://192.168.1.212:3000/api/auth/login', {
+                  const response = await fetch('https://study.knightsthegerbxyz.online:3000/api/auth/login', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'
@@ -233,7 +235,7 @@ function App() {
                 "username": username,
                 "password": password
               }
-              const response = await fetch('http://192.168.1.212:3000/api/auth/register', {
+              const response = await fetch('https://study.knightsthegerbxyz.online:3000/api/auth/register', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
