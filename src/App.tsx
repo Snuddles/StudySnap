@@ -35,7 +35,7 @@ function App() {
     { id: 2, name: 'History 101', cards: [] },
   ]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-
+  
   // Deck and card management functions
   const addDeck = (deckName: string) => {
     const newDeck: Deck = { id: Date.now(), name: deckName, cards: [] };
@@ -107,7 +107,7 @@ function App() {
                 <span>Welcome, {currentUser.username}!</span>
               </li>
               <li>
-                <button onClick={() => setCurrentUser(null)}>Logout</button>
+                <button onClick={() => {setCurrentUser(null); navigate('/')}}>Logout</button>
               </li>
             </>
           ) : null} {/* Removed the Login link when there's no currentUser */}
@@ -142,9 +142,28 @@ function App() {
           path="/login"
           element={
             <Login
-              onLogin={(username, password) => {
-                setCurrentUser({ email: '', username });
-                navigate('/dashboard');
+              onLogin={async (username, password) => {
+                const user = {
+                  "username": username,
+                  "password": password
+                }
+                const response = await fetch('http://192.168.1.212:3000/api/auth/login', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(user) 
+                })
+                const result = await response.json();
+                if (response.ok){
+                  alert("You're logged in!")
+                  setCurrentUser({ email: result.user.email, username: result.user.username });
+                  navigate('/dashboard');
+                }
+                else{
+                  alert(`Error ${result.error}`)
+                }
+                
               }}
             />
           }
@@ -153,10 +172,30 @@ function App() {
           path="/signup"
           element={
             <Signup
-              onSignup={(email, username, password) => {
-                setCurrentUser({ email, username });
-                navigate('/dashboard');
-              }}
+            onSignup={async (email, username, password) => {
+              const user = {
+                "email" : email,
+                "username": username,
+                "password": password
+              }
+              const response = await fetch('http://192.168.1.212:3000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user) 
+              })
+              const result = await response.json();
+              if (response.ok){
+                alert("You're registered!")
+                setCurrentUser({ email: email, username });
+                navigate('/login');
+              }
+              else{
+                alert(`Error ${result.error}`)
+              }
+              
+            }}
             />
           }
         />
