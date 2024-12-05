@@ -71,7 +71,7 @@ router.post('/:deckId/add-cards', async (req, res) => {
         }
 
         // Add new cards to the deck
-        deck.cards = [...deck.cards, ...cards];
+        deck.cards = cards; 
         await deck.save();
 
         res.status(200).json({ message: 'Cards added successfully', deck });
@@ -81,5 +81,22 @@ router.post('/:deckId/add-cards', async (req, res) => {
     }
 });
 
+
+router.get('/:deckId', async (req, res) => {
+    console.log('Fetching deck for:', req.params);
+    const { deckId } = req.params;
+    
+    try {
+        const deck = await Deck.findById(deckId); // Populate decks
+        if (!deck) {
+            return res.status(404).json({ message: 'Deck not found' });
+        }
+
+        res.status(200).json({deck});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error retrieving user decks', error: err.message });
+    }
+});
 
 module.exports = router;

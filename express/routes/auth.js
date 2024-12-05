@@ -73,10 +73,16 @@ router.get('/verify-token', (req, res) => {
 });
 
 // Get user details
-router.get('/user/:username', async (req, res) => {
-    const { username } = req.params;
+router.get('/user/', async (req, res) => {
+    const token = req.cookies?.token;
+    
+    if (!token) {
+        return res.status(401).json({ message: 'Authorization token is missing' });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log (decoded);
     try {
-        const user = await User.findOne({username});
+        const user = await User.findById(decoded.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -85,6 +91,11 @@ router.get('/user/:username', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Error fetching user details', error: err.message });
     }
+});
+
+router.post('/logout', (req, res) => {
+    res.clearCookie('token', { httpOnly: true, secure: false }); // Adjust 'secure' for HTTPS
+    res.status(200).json({ message: 'Logged out successfully' });
 });
 
 module.exports = router;

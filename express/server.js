@@ -8,6 +8,7 @@ const deckRoutes = require('./routes/decks');
 
 dotenv.config();
 
+const hostname = 'https://ec2-54-145-157-50.compute-1.amazonaws.com/'
 const app = express();
 
 app.use(cors({
@@ -32,4 +33,4 @@ app.use('/api/decks', deckRoutes); // Use deck routes
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, hostname, () => console.log(`Server running on port ${PORT}`));
