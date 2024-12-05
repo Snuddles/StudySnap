@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Register a new user
 router.post('/register', async (req, res) => {
+    console.log(req.body);
     const { username, email, password } = req.body;
     try {
         // Check if user already exists
@@ -19,6 +20,7 @@ router.post('/register', async (req, res) => {
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Error registering user', error: err.message });
     }
 });
@@ -41,24 +43,40 @@ router.post('/login', async (req, res) => {
 
         // Generate JWT
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(200).json({ message: 'Login successful', token, user });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax'
+        });
+        res.status(200).json({ message: 'Login successful', user });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Error logging in', error: err.message });
     }
 });
 
-// Get user details
-router.get('/user', async (req, res) => {
-    const token = req.headers.authorization;
-
+router.get('/verify-token', (req, res) => {
+    const token = req.cookies?.token;
+    console.log(req.cookies)
+    console.log(req.get('host'))
+    console.log(req.get('origin'))
     if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
+        return res.status(401).json({ message: 'Authorization token is missing' });
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id).select('-password');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify token
+        res.status(200).json({ message: 'Token is valid', decoded });
+    } catch (err) {
+        res.status(401).json({ message: 'Invalid or expired token', error: err.message });
+    }
+});
+
+// Get user details
+router.get('/user/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const user = await User.findOne({username});
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

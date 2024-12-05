@@ -1,15 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const deckRoutes = require('./routes/decks'); // Deck routes
+const deckRoutes = require('./routes/decks');
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow only specific domain
+    credentials: true, // Allow cookies and authorization headers
+}));
+
+app.use(cookieParser());
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // MongoDB Connection
